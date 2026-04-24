@@ -80,7 +80,34 @@
 
     <script src="script.js"></script>
     <script>
-        const ADMIN_PASSWORD = "prof2024"; // ⚠️ CHANGEZ CE MOT DE PASSE
+        /* ── Auth modifiée ── */
+document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const pwd = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pwd })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // On ne stocke plus le mot de passe, juste un indicateur local
+            sessionStorage.setItem('adminAuthenticated', 'true');
+            showDashboard();
+            hideError();
+        } else {
+            showError();
+            document.getElementById('password').value = '';
+        }
+    } catch (err) {
+        alert("Erreur de connexion au serveur");
+    }
+});
+
         let isAuthenticated = false;
 
         /* ── Auth ── */
