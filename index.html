@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeachAdvisor</title>
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./asset/favicon.png">
 </head>
 <body>
@@ -16,101 +15,147 @@
         </header>
 
         <main class="main-content">
-
-            <div class="form-group">
-                <label for="classroom" class="form-label">Classe ?</label>
-                <select id="classroom" name="classroom" class="form-select" required>
-                    <option value="" disabled selected>Choisissez votre classe</option>
-                    <option value="3eme">3ème</option>
-                    <option value="4eme">4ème</option>
-                </select>
-            </div>
-
-
-            <form id="feedbackForm" class="feedback-form">
-                <div class="form-group">
-    <label class="form-label">Comment évalues-tu cette année scolaire ?</label>
-    <div class="rating-container">
-        <div class="rating-scale">
-            <input type="radio" id="star1" name="satisfaction" value="1">
-            <label for="star1" class="star">★</label>
-            <input type="radio" id="star2" name="satisfaction" value="2">
-            <label for="star2" class="star">★</label>
-            <input type="radio" id="star3" name="satisfaction" value="3">
-            <label for="star3" class="star">★</label>
-            <input type="radio" id="star4" name="satisfaction" value="4">
-            <label for="star4" class="star">★</label>
-            <input type="radio" id="star5" name="satisfaction" value="5">
-            <label for="star5" class="star">★</label>
-        </div>
-        <div class="rating-labels">
-            <span>Décevante</span>
-            <span>Excellente</span>
-        </div>
-    </div>
-</div>
-
+            <form id="feedbackForm">
 
                 <div class="form-group">
+                    <label for="classroom" class="form-label">Classe ?</label>
+                    <select id="classroom" name="classroom" class="form-select" required>
+                        <option value="" disabled selected>Choisissez votre classe</option>
+                        <option value="3TTinfo">3TTinfo</option>
+                        <option value="3PS">3PS</option>
+                        <option value="4TTinfo">4TTinfo</option>
+                        <option value="4QAnim">4QAnim</option>
+                        <option value="4PGPM">4PGPM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Comment évalues-tu cette année scolaire ? 🎓</label>
+                    <div class="stars" id="rating-global" data-rating="0"></div>
+                    <div class="rating-labels">
+                        <span>Peut mieux faire... 😕</span>
+                        <span>Génial ! ✨</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Qualité de l'enseignement et des explications ? 📚</label>
+                    <div class="stars" id="rating-teaching" data-rating="0"></div>
+                    <div class="rating-labels">
+                        <span>Pas clair ❌</span>
+                        <span>Très clair ✅</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="positive" class="form-label">Ce que tu as particulièrement aimé :</label>
+                    <textarea id="positive" name="positive" placeholder="Les points forts du cours, de l'ambiance..."></textarea>
+                </div>
+
+               <div class="form-group">
                     <label for="positive" class="form-label">Comment évalues-tu cette année scolaire ainsi que mon travail d'enseignante, la clarté des explications, la charge de travail, etc. ?</label>
-                    <textarea 
-                        id="positive" 
-                        name="positive" 
-                        placeholder="..."
-                        rows="4"
-                    ></textarea>
+                    <textarea id="positive" name="positive"></textarea>
+                </div>
+
+                 <div class="form-group">
+                    <label for="positive" class="form-label">As-tu trouvé le travail demandé dans ce cours trop facile, trop difficile ou juste comme il fallait ?</label>
+                    <textarea id="positive" name="positive"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="improvements" class="form-label">As-tu trouvé le travail demandé dans ce cours trop facile, trop difficile ou juste comme il fallait ?</label>
-                    <textarea 
-                        id="improvements" 
-                        name="improvements" 
-                        placeholder="..."
-                        rows="4"
-                    ></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="overall" class="form-label">Un commentaire général ? (optionnel)</label>
-                    <textarea 
-                        id="overall" 
-                        name="overall" 
-                        placeholder="Tout autre commentaire que vous souhaitez partager..."
-                        rows="3"
-                    ></textarea>
+                    <label for="overall" class="form-label">D'autres remarques ?</label>
+                    <textarea id="overall" name="overall" placeholder="Tout autre commentaire..."></textarea>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-submit">
-                        <span class="btn-text">Envoyer mon avis</span>
-                        <span class="btn-loading" style="display: none;">Envoi en cours...</span>
-                    </button>
+                    <button type="submit" class="btn-submit">Envoyer mon avis</button>
                 </div>
 
-                <p class="anonymity-note">
-                    🔒 Vos réponses sont totalement anonymes et confidentielles
-                </p>
             </form>
-
-            <div id="successMessage" class="success-message" style="display: none;">
-                <div class="success-content">
-                    <div class="success-icon">✓</div>
-                    <h3>Merci pour votre retour !</h3>
-                    <p>Votre avis a été enregistré avec succès.</p>
-                    <button onclick="closeModal()" class="btn-secondary">Fermer</button>
-                </div>
-            </div>
         </main>
 
         <footer class="footer">
+            <p>Vos réponses sont totalement anonymes et confidentielles</p>
             <p>Vos retours m'aident à améliorer mon enseignement. Merci de votre participation.</p>
         </footer>
     </div>
 
-    <!-- Overlay pour les messages -->
     <div id="overlay" class="overlay" style="display: none;"></div>
+    <div id="successMessage" class="success-message" style="display: none;">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <h3>Merci !</h3>
+            <p>Votre avis a été enregistré avec succès.</p>
+            <button onclick="location.reload()" class="btn-secondary">Fermer</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        /* ── Demi-étoiles ── */
+        function buildStars(container) {
+            const COUNT = 5;
+            let selected = 0;
+
+            for (let i = 1; i <= COUNT; i++) {
+                const wrap = document.createElement('div');
+                wrap.className = 'star-wrap';
+                wrap.innerHTML = `
+                    <span class="star-bg">★</span>
+                    <span class="star-half">★</span>
+                    <span class="star-full">★</span>
+                    <span class="zone zone-half" data-val="${i - 0.5}"></span>
+                    <span class="zone zone-full" data-val="${i}"></span>
+                `;
+                container.appendChild(wrap);
+            }
+
+            function render(val) {
+                container.querySelectorAll('.star-wrap').forEach((w, idx) => {
+                    const n = idx + 1;
+                    const half = w.querySelector('.star-half');
+                    const full = w.querySelector('.star-full');
+                    if (val >= n) {
+                        full.style.opacity = 1;
+                        half.style.opacity = 0;
+                    } else if (val >= n - 0.5) {
+                        full.style.opacity = 0;
+                        half.style.opacity = 1;
+                    } else {
+                        full.style.opacity = 0;
+                        half.style.opacity = 0;
+                    }
+                });
+            }
+
+            container.addEventListener('mousemove', e => {
+                const zone = e.target.closest('[data-val]');
+                if (!zone) return;
+                render(parseFloat(zone.dataset.val));
+            });
+
+            container.addEventListener('mouseleave', () => render(selected));
+
+            container.addEventListener('click', e => {
+                const zone = e.target.closest('[data-val]');
+                if (!zone) return;
+                selected = parseFloat(zone.dataset.val);
+                container.dataset.rating = selected;
+                render(selected);
+            });
+        }
+
+        buildStars(document.getElementById('rating-global'));
+        buildStars(document.getElementById('rating-teaching'));
+
+        /* ── Soumission du formulaire ── */
+        document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const overlay = document.getElementById('overlay');
+            const success = document.getElementById('successMessage');
+            overlay.style.display = 'block';
+            success.style.display = 'block';
+        });
+    </script>
 </body>
 </html>

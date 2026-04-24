@@ -3,172 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>TeachAdvisor — Admin</title>
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./asset/favicon.png">
-
 </head>
 <body>
     <div class="container">
-        <!-- Écran de connexion -->
+
+        <!-- ── Écran de connexion ── -->
         <div id="loginScreen" class="login-screen">
             <div class="login-card">
                 <div class="login-header">
-                    <h1>🔒 Accès Administration</h1>
+                    <div class="login-icon">🔒</div>
+                    <h1>Accès Administration</h1>
                     <p>Entrez le mot de passe pour consulter les avis</p>
                 </div>
-                
                 <form id="loginForm" class="login-form">
                     <div class="form-group">
                         <label for="password" class="form-label">Mot de passe</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="form-input"
-                            placeholder="Votre mot de passe"
-                            required
-                        >
+                        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
                     </div>
-                    
-                    <div id="loginError" class="error-message" style="display: none;">
-                        ❌ Mot de passe incorrect
+                    <div id="loginError" class="error-message" style="display:none;">
+                        Mot de passe incorrect
                     </div>
-                    
-                    <button type="submit" class="btn-primary login-btn">
-                        Se connecter
-                    </button>
+                    <button type="submit" class="btn-submit">Se connecter</button>
                 </form>
-                
-                <div class="login-footer">
-                    <p>Interface sécurisée pour l'enseignant</p>
-                </div>
+                <p class="login-footer-note">Interface sécurisée pour l'enseignant·e</p>
             </div>
         </div>
 
-        <!-- Dashboard Admin (caché par défaut) -->
-        <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+        <!-- ── Dashboard ── -->
+        <div id="adminDashboard" style="display:none;">
+
             <header class="header">
-                <div class="admin-header">
+                <div class="admin-header-row">
                     <div>
-                        <h1>📊 Administration des Avis</h1>
+                        <h1>Administration des Avis</h1>
                         <p class="subtitle">Consultez les retours de vos élèves</p>
                     </div>
-                    <button id="logoutBtn" class="btn-secondary logout-btn">
-                        🚪 Déconnexion
-                    </button>
+                    <button id="logoutBtn" class="btn-logout">Déconnexion</button>
                 </div>
             </header>
 
             <main class="main-content">
-                <div class="admin-panel">
-                    <div class="stats-card">
-                        <h3>📈 Statistiques Rapides</h3>
-                        <div id="quickStats">
-                            <p>Chargement...</p>
-                        </div>
-                    </div>
 
-                    <div class="actions-card">
-                        <h3>🛠️ Actions</h3>
-                        <div class="action-buttons">
-                            <button id="refreshBtn" class="btn-primary" onclick="loadStats()">
-                                🔄 Actualiser
-                            </button>
-                            <button id="exportBtn" class="btn-primary" onclick="exportData()">
-                                📥 Télécharger les avis
-                            </button>
-                            <button id="clearBtn" class="btn-danger" onclick="clearAllData()">
-                                🗑️ Vider les données
-                            </button>
-                            
-                        </div>
-                    </div>
-
-                    <div class="actions-card">
-    <h3>🛠️ Filtrer par Classe</h3>
-                    </br>
-    <div class="filter-buttons form-group">
-        <select id="classFilter" class="form-select">
-            <option value="">Tous les avis</option>
-            <option value="3eme">3ème</option>
-            <option value="4eme">4ème</option>
-        </select>
-    </div>
-</div>
-
-                    <div class="feedback-list">
-                        <h3>💬 Derniers Avis</h3>
-                        <div id="feedbackContainer">
-                            <!-- Les avis apparaîtront ici -->
-                        </div>
-                    </div>
+                <!-- Filtre -->
+                <div class="filter-bar">
+                    <label class="form-label" for="classFilter">Filtrer par classe</label>
+                    <select id="classFilter" class="form-select">
+                        <option value="">Toutes les classes</option>
+                        <option value="3TTinfo">3TTinfo</option>
+                        <option value="3PS">3PS</option>
+                        <option value="4TTinfo">4TTinfo</option>
+                        <option value="4QAnim">4QAnim</option>
+                        <option value="4PGPM">4PGPM</option>
+                    </select>
+                    <button class="btn-action" onclick="loadStats()">Actualiser</button>
+                    <button class="btn-action" onclick="exportData()">Télécharger</button>
+                    <button class="btn-danger-sm" onclick="clearAllData()">Vider</button>
                 </div>
+
+                <!-- Stats -->
+                <div id="statsSection" class="stats-section">
+                    <p class="loading-text">Chargement…</p>
+                </div>
+
+                <!-- Liste des avis -->
+                <div class="feedback-list">
+                    <h3 class="section-title">Derniers avis</h3>
+                    <div id="feedbackContainer"></div>
+                </div>
+
             </main>
         </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        // Configuration du mot de passe (CHANGEZ-LE !)
-        const ADMIN_PASSWORD = "prof2024"; // ⚠️ CHANGEZ CE MOT DE PASSE !
-        
-        // Variables globales
+        const ADMIN_PASSWORD = "prof2024"; // ⚠️ CHANGEZ CE MOT DE PASSE
         let isAuthenticated = false;
-        
-        // Gestion de l'authentification
-        document.addEventListener('DOMContentLoaded', function() {
-            // Vérifier si déjà connecté (session)
-            if (sessionStorage.getItem('adminAuthenticated') === 'true') {
-                showDashboard();
-            }
-            
-            // Gestion du formulaire de connexion
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
+
+        /* ── Auth ── */
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('adminAuthenticated') === 'true') showDashboard();
+
+            document.getElementById('loginForm').addEventListener('submit', e => {
                 e.preventDefault();
-                const password = document.getElementById('password').value;
-                
-                if (password === ADMIN_PASSWORD) {
-                    // Mot de passe correct
+                const pwd = document.getElementById('password').value;
+                if (pwd === ADMIN_PASSWORD) {
                     sessionStorage.setItem('adminAuthenticated', 'true');
                     showDashboard();
                     hideError();
                 } else {
-                    // Mot de passe incorrect
                     showError();
                     document.getElementById('password').value = '';
                 }
             });
-            
-            // Bouton de déconnexion
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                logout();
-            });
+
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('classFilter').addEventListener('change', loadStats);
         });
-        
+
         function showDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'block';
             isAuthenticated = true;
-            loadStats(); // Charger les statistiques
+            loadStats();
         }
-        
+
         function showError() {
             document.getElementById('loginError').style.display = 'block';
             document.getElementById('password').classList.add('error');
-            
-            // Retirer l'erreur après 3 secondes
-            setTimeout(() => {
-                hideError();
-            }, 3000);
+            setTimeout(hideError, 3000);
         }
-        
+
         function hideError() {
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('password').classList.remove('error');
         }
-        
+
         function logout() {
             sessionStorage.removeItem('adminAuthenticated');
             document.getElementById('loginScreen').style.display = 'block';
@@ -176,197 +129,158 @@
             document.getElementById('password').value = '';
             isAuthenticated = false;
         }
-        
-        // Fonctions spécifiques à la page admin
-    
-   async function loadStats() {
-    if (!isAuthenticated) return;
 
-    const selectedClass = document.getElementById('classFilter').value;
-    console.log('🔍 Classe sélectionnée:', `"${selectedClass}"`);
-
-    try {
-        const data = await getAllFeedback();
-        const statsDiv = document.getElementById('quickStats');
-        const feedbackContainer = document.getElementById('feedbackContainer');
-        
-        // Élément de debug (ajoutez cet élément dans votre HTML si il n'existe pas)
-        let debugInfo = document.getElementById('debugInfo');
-        if (!debugInfo) {
-            debugInfo = document.createElement('div');
-            debugInfo.id = 'debugInfo';
-            debugInfo.style.cssText = 'background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; font-size: 12px;';
-            document.querySelector('.admin-dashboard').appendChild(debugInfo);
-        }
-
-        console.log('📊 Données JSON reçues:', data);
-
-        // Debug : afficher toutes les valeurs de classroom
-        const classroomInfo = data.map((feedback, index) => ({
-            index,
-            classroom: feedback.classroom,
-            type: typeof feedback.classroom,
-            satisfaction: feedback.satisfaction
-        }));
-        console.log('🏫 Détail des classes dans chaque avis:', classroomInfo);
-
-        const uniqueClassrooms = [...new Set(data.map(feedback => feedback.classroom))];
-        console.log('🏫 Classes uniques trouvées:', uniqueClassrooms);
-        
-        // Affichage debug
-        debugInfo.innerHTML = `
-            <strong>📋 Debug JSON:</strong><br>
-            • ${data.length} avis au total dans le fichier JSON<br>
-            • <strong>Classes trouvées:</strong> ${uniqueClassrooms.length > 0 ? uniqueClassrooms.map(c => `"${c}"`).join(', ') : 'Aucune'}<br>
-            • <strong>Filtre actuel:</strong> "${selectedClass}"<br>
-            • <strong>Source:</strong> feedback.json uniquement
-        `;
-
-        // Filtrer les données avec debug détaillé
-        const filteredData = selectedClass 
-            ? data.filter((feedback, index) => {
-                const feedbackClass = feedback.classroom;
-                const isMatch = feedbackClass === selectedClass;
-                
-                // Debug spécial pour voir tous les détails
-                console.log(`[${index}] Comparaison: "${feedbackClass}" === "${selectedClass}" → ${isMatch}`);
-                
-                return isMatch;
-              })
-            : data;
-
-        console.log(`📋 ${filteredData.length} avis après filtrage pour "${selectedClass}"`);
-
-        // Debug encore plus détaillé si aucun résultat pour 4eme
-        if (selectedClass === "4eme" && filteredData.length === 0) {
-            console.log('🚨 DIAGNOSTIC APPROFONDI pour 4eme:');
-            data.forEach((feedback, index) => {
-                const classroom = feedback.classroom;
-                console.log(`Avis ${index}:`, {
-                    classroom_value: classroom,
-                    classroom_type: typeof classroom,
-                    classroom_length: classroom?.length,
-                    is_string: typeof classroom === 'string',
-                    exact_match: classroom === "4eme",
-                    trimmed_match: classroom?.trim() === "4eme",
-                    lowercase_match: classroom?.toLowerCase() === "4eme",
-                    raw_chars: classroom ? [...classroom].map(c => `${c}(${c.charCodeAt(0)})`) : null
-                });
-            });
-        }
-
-        // Gestion du cas où aucune donnée n'est trouvée
-        if (filteredData.length === 0) {
-            const noDataMessage = selectedClass 
-                ? `Aucun avis trouvé pour la classe "${selectedClass}" dans le fichier JSON.${uniqueClassrooms.length > 0 ? ` Classes disponibles: ${uniqueClassrooms.map(c => `"${c}"`).join(', ')}` : ''}`
-                : 'Aucun avis dans le fichier JSON.';
-            
-            statsDiv.innerHTML = `<p style="color: orange;">${noDataMessage}</p>`;
-            feedbackContainer.innerHTML = `<p class="no-feedback" style="text-align: center; color: #666;">${noDataMessage}</p>`;
-            return;
-        }
-
-        // Calcul des statistiques
-        let totalRating = 0;
-        const ratings = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-        let validFeedbackCount = 0;
-
-        filteredData.forEach((feedback, index) => {
-            const rating = parseInt(feedback.satisfaction);
-            if (!isNaN(rating) && rating >= 1 && rating <= 5) {
-                ratings[rating]++;
-                totalRating += rating;
-                validFeedbackCount++;
-            } else {
-                console.warn(`⚠️ Note invalide à l'index ${index}:`, feedback.satisfaction, 'dans:', feedback);
+        /* ── Rendu demi-étoiles ── */
+        function renderStars(value) {
+            const v = parseFloat(value) || 0;
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                if (v >= i) {
+                    html += '<span class="s-full">★</span>';
+                } else if (v >= i - 0.5) {
+                    html += '<span class="s-half-wrap"><span class="s-half">★</span><span class="s-empty">★</span></span>';
+                } else {
+                    html += '<span class="s-empty">★</span>';
+                }
             }
-        });
+            return `<span class="star-display">${html}</span>`;
+        }
 
-        const averageRating = validFeedbackCount > 0 ? (totalRating / validFeedbackCount).toFixed(2) : '0.00';
+        /* ── Chargement & stats ── */
+        async function loadStats() {
+            if (!isAuthenticated) return;
 
-        console.log('📊 Statistiques finales:', { 
-            total: filteredData.length, 
-            validRatings: validFeedbackCount, 
-            average: averageRating, 
-            distribution: ratings 
-        });
+            const selectedClass = document.getElementById('classFilter').value;
+            const statsSection = document.getElementById('statsSection');
+            const feedbackContainer = document.getElementById('feedbackContainer');
 
-        // Affichage des statistiques
-        statsDiv.innerHTML = `
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">${filteredData.length}</span>
-                    <span class="stat-label">Total d'avis${selectedClass ? ` (${selectedClass})` : ''}</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">${averageRating}/5</span>
-                    <span class="stat-label">Note moyenne</span>
-                </div>
-            </div>
-            <div class="rating-breakdown">
-                <h4>Répartition des notes :</h4>
-                ${[5, 4, 3, 2, 1].map(star => {
-                    const count = ratings[star];
-                    const percentage = validFeedbackCount > 0 ? ((count / validFeedbackCount) * 100) : 0;
+            statsSection.innerHTML = '<p class="loading-text">Chargement…</p>';
+            feedbackContainer.innerHTML = '';
+
+            try {
+                const data = await getAllFeedback();
+
+                const filtered = selectedClass
+                    ? data.filter(f => f.classroom === selectedClass)
+                    : data;
+
+                if (filtered.length === 0) {
+                    const msg = selectedClass
+                        ? `Aucun avis pour la classe « ${selectedClass} ».`
+                        : 'Aucun avis enregistré.';
+                    statsSection.innerHTML = `<p class="empty-text">${msg}</p>`;
+                    feedbackContainer.innerHTML = `<p class="empty-text">${msg}</p>`;
+                    return;
+                }
+
+                /* Calcul stats — demi-étoiles incluses */
+                let totalGlobal = 0, totalTeaching = 0;
+                let countGlobal = 0, countTeaching = 0;
+                const distribution = {};
+                for (let v = 0.5; v <= 5; v += 0.5) distribution[v] = 0;
+
+                filtered.forEach(f => {
+                    const g = parseFloat(f.satisfaction);
+                    const t = parseFloat(f.teaching);
+                    if (!isNaN(g) && g > 0) { totalGlobal += g; countGlobal++; distribution[g] = (distribution[g] || 0) + 1; }
+                    if (!isNaN(t) && t > 0) { totalTeaching += t; countTeaching++; }
+                });
+
+                const avgGlobal   = countGlobal   > 0 ? (totalGlobal   / countGlobal).toFixed(2)   : '—';
+                const avgTeaching = countTeaching > 0 ? (totalTeaching / countTeaching).toFixed(2) : '—';
+
+                /* Barres de répartition par étoile entière (regroupées) */
+                const distByInt = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                Object.entries(distribution).forEach(([k, v]) => {
+                    const rounded = Math.ceil(parseFloat(k));
+                    if (rounded >= 1 && rounded <= 5) distByInt[rounded] += v;
+                });
+
+                statsSection.innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">${filtered.length}</span>
+                            <span class="stat-label">Avis${selectedClass ? ' · ' + selectedClass : ''}</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">${avgGlobal}<small>/5</small></span>
+                            <span class="stat-label">Note année scolaire</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">${avgTeaching}<small>/5</small></span>
+                            <span class="stat-label">Note enseignement</span>
+                        </div>
+                    </div>
+                    <div class="rating-breakdown">
+                        <p class="breakdown-title">Répartition des notes (année scolaire)</p>
+                        ${[5, 4, 3, 2, 1].map(star => {
+                            const count = distByInt[star];
+                            const pct = countGlobal > 0 ? (count / countGlobal) * 100 : 0;
+                            return `
+                                <div class="rating-bar-row">
+                                    <span class="bar-label">${star}★</span>
+                                    <div class="bar-track">
+                                        <div class="bar-fill" style="width:${pct.toFixed(1)}%"></div>
+                                    </div>
+                                    <span class="bar-count">${count}</span>
+                                </div>`;
+                        }).join('')}
+                    </div>
+                `;
+
+                /* Liste des avis (10 plus récents) */
+                const recent = filtered.slice(-10).reverse();
+                feedbackContainer.innerHTML = recent.map(f => {
+                    const date = f.timestamp
+                        ? new Date(f.timestamp).toLocaleDateString('fr-FR', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' })
+                        : 'Date inconnue';
+
+                    const fields = [
+                        f.positive    && { icon: '✅', label: 'Points forts', text: f.positive },
+                        f.evaluation  && { icon: '🏫', label: 'Évaluation de l\'enseignante', text: f.evaluation },
+                        f.difficulty  && { icon: '📐', label: 'Difficulté du travail', text: f.difficulty },
+                        f.overall     && { icon: '💬', label: 'Autres remarques', text: f.overall },
+                    ].filter(Boolean);
+
                     return `
-                        <div class="rating-bar">
-                            <span class="star-label">${star}★</span>
-                            <div class="bar">
-                                <div class="bar-fill" style="width: ${percentage}%"></div>
+                        <div class="feedback-item">
+                            <div class="feedback-header">
+                                <div class="feedback-meta">
+                                    <span class="feedback-class">${f.classroom || 'Classe inconnue'}</span>
+                                    <span class="feedback-date">${date}</span>
+                                </div>
+                                <div class="feedback-ratings">
+                                    <span class="rating-row">${renderStars(f.satisfaction)} <span class="rating-sub">Année</span></span>
+                                    ${f.teaching ? `<span class="rating-row">${renderStars(f.teaching)} <span class="rating-sub">Enseignement</span></span>` : ''}
+                                </div>
                             </div>
-                            <span class="count">${count}</span>
+                            ${fields.length > 0 ? `
+                            <div class="feedback-body">
+                                ${fields.map(field => `
+                                    <div class="feedback-field">
+                                        <span class="field-label">${field.icon} ${field.label}</span>
+                                        <p class="field-text">${field.text}</p>
+                                    </div>`).join('')}
+                            </div>` : ''}
                         </div>
                     `;
-                }).join('')}
-            </div>
-        `;
+                }).join('');
 
-        // Affichage des avis filtrés (10 plus récents)
-        const recentFeedback = filteredData.slice(-10).reverse();
-        feedbackContainer.innerHTML = recentFeedback.map(feedback => `
-            <div class="feedback-item">
-                <div class="feedback-header">
-                    <span class="rating">${'★'.repeat(parseInt(feedback.satisfaction) || 0)}${'☆'.repeat(5 - (parseInt(feedback.satisfaction) || 0))}</span>
-                    <span class="date">Classe : ${feedback.classroom || 'Non spécifiée'}</span>
-                    <span class="date">${new Date(feedback.timestamp).toLocaleDateString('fr-FR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })}</span>
-                </div>
-                <div class="feedback-content">
-                    ${feedback.positive ? `<div class="feedback-section positive"><strong>✅ Avis année scolaire :</strong><p>${feedback.positive}</p></div>` : ''}
-                    ${feedback.improvements ? `<div class="feedback-section improvements"><strong>⚠️ Charge de travail / Difficulté :</strong><p>${feedback.improvements}</p></div>` : ''}
-                    ${feedback.overall ? `<div class="feedback-section suggestions"><strong>💡 Commentaires :</strong><p>${feedback.overall}</p></div>` : ''}
-                </div>
-            </div>
-        `).join('');
-
-    } catch (error) {
-        console.error('❌ Erreur lors du chargement des stats:', error);
-        document.getElementById('quickStats').innerHTML = '<p style="color: red;">❌ Erreur de chargement du fichier JSON.</p>';
-    }
-}
+            } catch (err) {
+                console.error(err);
+                statsSection.innerHTML = '<p class="error-text">Erreur de chargement du fichier JSON.</p>';
+            }
+        }
 
         function exportData() {
             if (!isAuthenticated) return;
             exportFeedback();
         }
 
-      function clearAllData() {
-    if (!isAuthenticated) return;
-    
-    alert('⚠️ Attention: Cette interface lit uniquement le fichier JSON.\n\nPour supprimer les données, vous devez modifier directement le fichier feedback.json sur le serveur.');
-}
-
-        document.getElementById('classFilter').addEventListener('change', function() {
-    loadStats(); // Recharge les statistiques et filtre les avis en fonction de la classe
-});
-
-        
-        
+        function clearAllData() {
+            if (!isAuthenticated) return;
+            alert('⚠️ Pour supprimer les données, modifiez directement le fichier feedback.json sur le serveur.');
+        }
     </script>
 </body>
 </html>
