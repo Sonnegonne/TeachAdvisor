@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base-path" content="/teachAdvisor">
     <title>TeachAdvisor</title>
-    <link href="style.css?v=1.1" rel="stylesheet">
+    <link href="css/style.css?v=2.0" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./asset/fav.png?v=1">
 </head>
 <body>
@@ -53,14 +54,14 @@
                     <textarea required id="positive" name="positive" placeholder="Les points forts du cours, de l'ambiance..."></textarea>
                 </div>
 
-               <div class="form-group">
-                    <label for="positive" class="form-label">Comment évalues-tu cette année scolaire ainsi que mon travail d'enseignante, la clarté des explications, la charge de travail, etc. ?</label>
-                    <textarea required id="positive" name="positive"></textarea>
+                <div class="form-group">
+                    <label for="evaluation" class="form-label">Comment évalues-tu cette année scolaire ainsi que mon travail d'enseignante, la clarté des explications, la charge de travail, etc. ?</label>
+                    <textarea required id="evaluation" name="evaluation"></textarea>
                 </div>
 
-                 <div class="form-group">
-                    <label for="positive" class="form-label">As-tu trouvé le travail demandé dans ce cours trop facile, trop difficile ou juste comme il fallait ?</label>
-                    <textarea required id="positive" name="positive"></textarea>
+                <div class="form-group">
+                    <label for="difficulty" class="form-label">As-tu trouvé le travail demandé dans ce cours trop facile, trop difficile ou juste comme il fallait ?</label>
+                    <textarea required id="difficulty" name="difficulty"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -70,8 +71,8 @@
 
                 <div class="form-group">
                     <label for="studentCode" class="form-label">Code d'accès unique</label>
-                    <input type="text" id="studentCode" name="studentCode" class="form-input" placeholder="Ex: ABC1" required>
-                    <p class="subtitle" style="font-size: 0.8rem;">Ce code vous a été remis par votre enseignant·e.</p>
+                    <input type="text" id="studentCode" name="studentCode" class="form-input" placeholder="Ex: T9A2" required>
+                    <p class="subtitle" style="font-size: 0.8rem; margin-top: 0.4rem;">Ce code vous a été remis par votre enseignant·e.</p>
                 </div>
 
                 <div class="form-actions">
@@ -82,9 +83,9 @@
         </main>
     </div>
 
-     <footer class="footer">
-            <p>Vos réponses sont totalement anonymes et confidentielles</p>
-            <p>Vos retours m'aident à améliorer mon enseignement. Merci de votre participation.</p>
+    <footer class="footer">
+        <p>Vos réponses sont totalement anonymes et confidentielles</p>
+        <p>Vos retours m'aident à améliorer mon enseignement. Merci de votre participation.</p>
     </footer>
 
     <div id="overlay" class="overlay" style="display: none;"></div>
@@ -97,6 +98,6 @@
         </div>
     </div>
 
-   <script src="script.js"></script>
+    <script src="js/script.js?v=2.0"></script>
 </body>
 </html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base-path" content="/teachAdvisor">
+    <title>TeachAdvisor — Admin</title>
+    <link href="css/style.css?v=2.0" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./asset/fav.png?v=1">
+</head>
+<body>
+    <div class="container">
+
+        <!-- ── Écran de connexion ── -->
+        <div id="loginScreen" class="login-screen">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-icon">🔒</div>
+                    <h1>Accès Administration</h1>
+                    <p>Entrez le mot de passe pour consulter les avis</p>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••">
+                </div>
+                <div id="loginError" class="error-message" style="display:none;">
+                    Mot de passe incorrect
+                </div>
+                <button id="loginBtn" class="btn-submit">Se connecter</button>
+                <p class="login-footer-note">Interface sécurisée pour l'enseignant·e</p>
+            </div>
+        </div>
+
+        <!-- ── Dashboard ── -->
+        <div id="adminDashboard" style="display:none;">
+
+            <header class="header">
+                <div class="admin-header-row">
+                    <div>
+                        <h1>Administration des Avis</h1>
+                        <p class="subtitle">Consultez les retours de vos élèves</p>
+                    </div>
+                    <button id="logoutBtn" class="btn-logout">Déconnexion</button>
+                </div>
+            </header>
+
+            <main class="main-content">
+
+                <!-- Filtre -->
+                <div class="filter-bar">
+                    <label class="form-label" for="classFilter">Filtrer par classe</label>
+                    <select id="classFilter" class="form-select">
+                        <option value="">Toutes les classes</option>
+                        <option value="3TTinfo">3TTinfo</option>
+                        <option value="3PS">3PS</option>
+                        <option value="4TTinfo">4TTinfo</option>
+                        <option value="4QAnim">4QAnim</option>
+                        <option value="4PGPM">4PGPM</option>
+                    </select>
+                    <button class="btn-action" onclick="loadStats()">Actualiser</button>
+                    <button class="btn-action" onclick="exportData()">Télécharger JSON</button>
+                    <button class="btn-action" onclick="resetCodes()">Reset codes</button>
+                    <button class="btn-danger-sm" onclick="clearAllData()">Vider les avis</button>
+                </div>
+
+                <!-- Stats -->
+                <div id="statsSection" class="stats-section">
+                    <p class="loading-text">Chargement…</p>
+                </div>
+
+                <!-- Liste des avis -->
+                <div class="feedback-list">
+                    <h3 class="section-title">Derniers avis (10 plus récents)</h3>
+                    <div id="feedbackContainer"></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="js/admin.js?v=2.0"></script>
+</body>
+</html>
