@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'teach-advisor',
       script: './index.js',
-      cwd: '/var/www/teachAdvisor',   // ← adapter au chemin réel sur le serveur
+      cwd: '/home/songon/TeachAdvisor',
       instances: 1,
       autorestart: true,
       watch: false,
