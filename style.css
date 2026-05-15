@@ -319,3 +319,26 @@ textarea:focus,
         padding: 2rem 1.5rem;
     }
 }
+
+
+.form-input, .form-select, textarea {
+    width: 100%;
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus, .form-select:focus, textarea:focus {
+    border-color: var(--accent);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}

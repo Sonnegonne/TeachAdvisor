@@ -1,4 +1,9 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+// Autorise les méthodes spécifiques
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+// Autorise les en-têtes spécifiques (Content-Type est crucial pour vos envois JSON)
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 session_start();
 
 $data = json_decode(file_get_contents('php://input'), true);

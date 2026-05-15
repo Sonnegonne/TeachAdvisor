@@ -50,22 +50,28 @@
 
                 <div class="form-group">
                     <label for="positive" class="form-label">Ce que tu as particulièrement aimé :</label>
-                    <textarea id="positive" name="positive" placeholder="Les points forts du cours, de l'ambiance..."></textarea>
+                    <textarea required id="positive" name="positive" placeholder="Les points forts du cours, de l'ambiance..."></textarea>
                 </div>
 
                <div class="form-group">
                     <label for="positive" class="form-label">Comment évalues-tu cette année scolaire ainsi que mon travail d'enseignante, la clarté des explications, la charge de travail, etc. ?</label>
-                    <textarea id="positive" name="positive"></textarea>
+                    <textarea required id="positive" name="positive"></textarea>
                 </div>
 
                  <div class="form-group">
                     <label for="positive" class="form-label">As-tu trouvé le travail demandé dans ce cours trop facile, trop difficile ou juste comme il fallait ?</label>
-                    <textarea id="positive" name="positive"></textarea>
+                    <textarea required id="positive" name="positive"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="overall" class="form-label">D'autres remarques ?</label>
                     <textarea id="overall" name="overall" placeholder="Tout autre commentaire..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentCode" class="form-label">Code d'accès unique</label>
+                    <input type="text" id="studentCode" name="studentCode" class="form-input" placeholder="Ex: ABC1" required>
+                    <p class="subtitle" style="font-size: 0.8rem;">Ce code vous a été remis par votre enseignant·e.</p>
                 </div>
 
                 <div class="form-actions">
@@ -74,12 +80,12 @@
 
             </form>
         </main>
+    </div>
 
-        <footer class="footer">
+     <footer class="footer">
             <p>Vos réponses sont totalement anonymes et confidentielles</p>
             <p>Vos retours m'aident à améliorer mon enseignement. Merci de votre participation.</p>
-        </footer>
-    </div>
+    </footer>
 
     <div id="overlay" class="overlay" style="display: none;"></div>
     <div id="successMessage" class="success-message" style="display: none;">
@@ -91,72 +97,6 @@
         </div>
     </div>
 
-    <script>
-        /* ── Demi-étoiles ── */
-        function buildStars(container) {
-            const COUNT = 5;
-            let selected = 0;
-
-            for (let i = 1; i <= COUNT; i++) {
-                const wrap = document.createElement('div');
-                wrap.className = 'star-wrap';
-                wrap.innerHTML = `
-                    <span class="star-bg">★</span>
-                    <span class="star-half">★</span>
-                    <span class="star-full">★</span>
-                    <span class="zone zone-half" data-val="${i - 0.5}"></span>
-                    <span class="zone zone-full" data-val="${i}"></span>
-                `;
-                container.appendChild(wrap);
-            }
-
-            function render(val) {
-                container.querySelectorAll('.star-wrap').forEach((w, idx) => {
-                    const n = idx + 1;
-                    const half = w.querySelector('.star-half');
-                    const full = w.querySelector('.star-full');
-                    if (val >= n) {
-                        full.style.opacity = 1;
-                        half.style.opacity = 0;
-                    } else if (val >= n - 0.5) {
-                        full.style.opacity = 0;
-                        half.style.opacity = 1;
-                    } else {
-                        full.style.opacity = 0;
-                        half.style.opacity = 0;
-                    }
-                });
-            }
-
-            container.addEventListener('mousemove', e => {
-                const zone = e.target.closest('[data-val]');
-                if (!zone) return;
-                render(parseFloat(zone.dataset.val));
-            });
-
-            container.addEventListener('mouseleave', () => render(selected));
-
-            container.addEventListener('click', e => {
-                const zone = e.target.closest('[data-val]');
-                if (!zone) return;
-                selected = parseFloat(zone.dataset.val);
-                container.dataset.rating = selected;
-                render(selected);
-            });
-        }
-
-        buildStars(document.getElementById('rating-global'));
-        buildStars(document.getElementById('rating-teaching'));
-
-        /* ── Soumission du formulaire ── */
-        document.getElementById('feedbackForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const overlay = document.getElementById('overlay');
-            const success = document.getElementById('successMessage');
-            overlay.style.display = 'block';
-            success.style.display = 'block';
-        });
-    </script>
+   <script src="script.js"></script>
 </body>
 </html>
